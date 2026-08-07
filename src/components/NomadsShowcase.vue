@@ -2,10 +2,10 @@
   <section class="nomads-showcase-section">
     <div class="showcase-header">
       <div class="header-left">
-        <h2 class="showcase-title">实战案例与爆款模板库 (Nomads Showcase)</h2>
-        <p class="showcase-subtitle">精选高转化电商爆款场景，点击“一键套用”快速生成专业文案</p>
+        <h2 class="showcase-title">实战案例与模板库 (Nomads Showcase)</h2>
+        <p class="showcase-subtitle">精选高频实战场景，点击“一键套用”快速生成高质量结果</p>
       </div>
-      <span class="showcase-badge">已收录 {{ showcaseItems.length }} 个电商实战模板</span>
+      <span class="showcase-badge">已收录 {{ showcaseItems.length }} 个实战模板</span>
     </div>
 
     <div class="showcase-grid">
@@ -41,95 +41,119 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
+const props = defineProps<{
+  appTitle?: string;
+  isImage?: boolean;
+}>();
+
+const emit = defineEmits<{
+  (e: 'apply-template', payload: { prompt: string; style?: string }): void;
+}>();
+
 export interface ShowcaseItem {
   id: string;
   tag: string;
   title: string;
   prompt: string;
-  copywritingType?: string;
-  platform?: string;
-  targetAudience?: string;
+  style?: string;
   usageCount: string;
 }
 
-const emit = defineEmits<{
-  (e: 'apply-template', payload: {
-    prompt: string;
-    copywritingType?: string;
-    platform?: string;
-    targetAudience?: string;
-  }): void;
-}>();
-
-const showcaseItems = computed<ShowcaseItem[]>(() => [
-  {
-    id: 'dianshang-1',
-    tag: '美妆护肤',
-    title: '水光玻尿酸保湿精华爆款文案',
-    prompt: '针对30+精致妈妈群体，主打熬夜急救补水与抗初老，需包含5张主图文案构图与小红书真实痛点种草脚本。',
-    copywritingType: '商品主图与详情页文案',
-    platform: '小红书',
-    targetAudience: '精致妈妈',
-    usageCount: '38.5k'
-  },
-  {
-    id: 'dianshang-2',
-    tag: '智能数码',
-    title: '主动降噪蓝牙耳机短视频前3秒爆点',
-    prompt: '面向Z世代学生与职场白领，主打地铁公交极速降噪与无感佩戴，生成抖音短视频黄金前3秒吸睛台词与画质建议。',
-    copywritingType: '小红书/抖音种草文案',
-    platform: '抖音电商',
-    targetAudience: 'Z世代青年',
-    usageCount: '42.1k'
-  },
-  {
-    id: 'dianshang-3',
-    tag: '数码家电',
-    title: '全自动扫拖一体机器人直播促单',
-    prompt: '面向职场忙碌白领与家庭主妇，强调解放双手与智能避障，设计主播双簧逼单话术与限时买一赠五优惠倒计时。',
-    copywritingType: '直播间带货与促单话术',
-    platform: '淘宝天猫',
-    targetAudience: '职场白领',
-    usageCount: '29.8k'
-  },
-  {
-    id: 'dianshang-4',
-    tag: '服装服饰',
-    title: '法式复古收腰连衣裙主图与卖点',
-    prompt: '面向都市女性与品质银发族，突出显瘦遮肉版型与天然桑蚕丝面料，提炼3大超级卖点与详情页视觉图文层级。',
-    copywritingType: '商品主图与详情页文案',
-    platform: '京东',
-    targetAudience: '银发高质感',
-    usageCount: '31.4k'
-  },
-  {
-    id: 'dianshang-5',
-    tag: '休闲零食',
-    title: '0糖低卡纯黑巧克力大促活动方案',
-    prompt: '面向健身减脂人与小镇青年，强调好吃不胖与真材实料，撰写聚划算前1小时买2送1满减促销方案与爆款口号。',
-    copywritingType: '电商爆款活动与聚划算方案',
-    platform: '拼多多',
-    targetAudience: '小镇青年',
-    usageCount: '26.7k'
-  },
-  {
-    id: 'dianshang-6',
-    tag: '户外运动',
-    title: '轻量化黑胶露营天幕种草笔记',
-    prompt: '面向露营爱好者与户外达人，强调UPF50+防晒防暴雨与3分钟快速搭建，撰写符合平台流量推荐的小红书笔记。',
-    copywritingType: '小红书/抖音种草文案',
-    platform: '小红书',
-    targetAudience: 'Z世代青年',
-    usageCount: '24.3k'
+// 模拟实战案例数据库（支持根据文本/图像类及应用主题切换）
+const showcaseItems = computed<ShowcaseItem[]>(() => {
+  if (props.isImage) {
+    return [
+      {
+        id: 'img-1',
+        tag: '写真肖像',
+        title: '商务精英形象照',
+        prompt: '高端写字楼背景，身穿深蓝色西装，眼神自信专注，赛博朋克光影效果',
+        style: '<photography>',
+        usageCount: '18.5k'
+      },
+      {
+        id: 'img-2',
+        tag: '概念插画',
+        title: '未来科幻城市海报',
+        prompt: '霓虹灯光的赛博朋克立体城市，飞行汽车，高品质概念插画，8k分辨率',
+        style: '<illustration>',
+        usageCount: '24.1k'
+      },
+      {
+        id: 'img-3',
+        tag: '二次元动漫',
+        title: '日系国潮动漫角色',
+        prompt: '穿着现代汉服的国风少年，手持纸伞，水彩漫感，唯美光感与柔光滤镜',
+        style: '<anime>',
+        usageCount: '15.9k'
+      },
+      {
+        id: 'img-4',
+        tag: '水彩艺术',
+        title: '治愈系自然风景画',
+        prompt: '晨雾中的森林湖泊，阳光穿透树林，水彩渐变质感，温馨治愈风格',
+        style: '<watercolor>',
+        usageCount: '12.3k'
+      }
+    ];
+  } else {
+    return [
+      {
+        id: 'text-1',
+        tag: '职场总结',
+        title: '周报 OKR 成果提炼',
+        prompt: '本周完成了核心模块优化与线上异常排查，请帮我梳理为具备量化指标的 OKR 汇报文案',
+        style: '专业干练，结果导向',
+        usageCount: '32.8k'
+      },
+      {
+        id: 'text-2',
+        tag: '高情商沟通',
+        title: '拒绝不合理加班话术',
+        prompt: '领导在周末突然布置非紧急任务，如何高情商、委婉且有理有据地推迟到工作日处理？',
+        style: '高情商，委婉，有情调',
+        usageCount: '28.4k'
+      },
+      {
+        id: 'text-3',
+        tag: '短视频文案',
+        title: '知识干货吸睛开头',
+        prompt: '准备制作一条关于高效学习法的短视频，设计 3 个能在前 3 秒留住用户的爆款口播开头',
+        style: '专业干练，结果导向',
+        usageCount: '45.1k'
+      },
+      {
+        id: 'text-4',
+        tag: '商务公文',
+        title: '跨部门协同申请函',
+        prompt: '因项目上线需要研发部门配合联调，撰写一份正式、严谨且明确时间节点的协同申请书',
+        style: '专业干练，结果导向',
+        usageCount: '19.7k'
+      },
+      {
+        id: 'text-5',
+        tag: '小红书种草',
+        title: '实战干货笔记排版',
+        prompt: '分享 5 个提升日常工作效率的文字工具，语言亲切，搭配吸引人的标题与 Emoji 排版',
+        style: '高情商，委婉，有情调',
+        usageCount: '36.2k'
+      },
+      {
+        id: 'text-6',
+        tag: '学术润色',
+        title: '论文摘要与结论重构',
+        prompt: '将以下粗糙的研究结论重写为学术规范、逻辑严密且无语法语病的论文摘要总结',
+        style: '专业干练，结果导向',
+        usageCount: '22.0k'
+      }
+    ];
   }
-]);
+});
 
 function applyTemplate(item: ShowcaseItem) {
   emit('apply-template', {
     prompt: item.prompt,
-    copywritingType: item.copywritingType,
-    platform: item.platform,
-    targetAudience: item.targetAudience
+    style: item.style
   });
 }
 </script>
